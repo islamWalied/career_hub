@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// login and register routes
+Route::post('/register',[\App\Http\Controllers\AuthController::class,'register']);
+Route::post('/login',[\App\Http\Controllers\AuthController::class,'login']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-require __DIR__ . '/admin/auth/auth.php';
+//logout routes
+Route::middleware('auth:sanctum')
+    ->get('/logout',[\App\Http\Controllers\AuthController::class,'logout']);
