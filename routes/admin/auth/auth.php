@@ -20,3 +20,7 @@ Route::post('/login',[\App\Http\Controllers\AuthController::class,'login']);
 //logout routes
 Route::middleware('auth:sanctum')
     ->get('/logout',[\App\Http\Controllers\AuthController::class,'logout']);
+
+// social media routes
+Route::get('/auth/{provider}/redirect',[\App\Http\Controllers\ProviderController::class,'redirect']);
+Route::get('/auth/{provider}/callback',[\App\Http\Controllers\ProviderController::class,'callback']);

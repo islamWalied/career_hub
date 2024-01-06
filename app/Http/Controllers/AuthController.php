@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         // --------  validate on the requested data   ------------- \\
 
         $fields = $request->validate([
             'name' => 'string|required',
             'email' => 'string|required|unique:users',
-            'password' => 'string|required',
+            'password' => 'string|required|confirmed',
         ]);
 
         // --------  create user in database  ------------- \\
@@ -46,7 +46,7 @@ class AuthController extends Controller
                 'content-type' => 'application/json',
             ]);
     }
-    public function login(Request $request)
+    public function login(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         // --------  validate on the requested data   ------------- \\
 
@@ -88,7 +88,7 @@ class AuthController extends Controller
                 'content-type' => 'application/json',
             ]);
     }
-    public function logout()
+    public function logout(): array
     {
         // -------------  delete user tokens  ------------ \\
         auth()->user()->tokens()->delete();
