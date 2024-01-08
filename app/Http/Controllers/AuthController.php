@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,6 +26,10 @@ class AuthController extends Controller
            'email' => $fields['email'],
            'password' => bcrypt($fields['password']),
         ]);
+
+
+        // Send verification email
+        $user->notify(new VerifyEmailNotification());
 
         // ---------  create token for the registered user and save it  --------- \\
         $token = $user->createToken('my_token')->plainTextToken;
@@ -58,6 +63,8 @@ class AuthController extends Controller
         // --------  check email in database  ------------- \\
         $user = User::where('email',$fields['email'])->first();
 
+
+        //TODO make user take one token when logging, just one login in time
 
         // --------  check email in database  ------------- \\
         if(!$user || !Hash::check($fields['password'], $user->password)) {
