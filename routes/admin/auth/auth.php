@@ -41,3 +41,6 @@ Route::post(
     '/reset-password',
     [App\Http\Controllers\ResetPasswordController::class, 'resetPassword']
 );
+
+
+Route::post('/auth/contact',[\App\Http\Controllers\ContactController::class,'store']);
