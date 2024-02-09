@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\VerifyEmail;
 use App\Models\User;
-use App\Notifications\VerifyEmailNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -41,7 +41,7 @@ class AuthController extends Controller
         // Send verification email
         if ($user) {
             $verify2 =  DB::table('password_reset_tokens')->where([
-                ['email', $request->all()['email']]
+                ['email', $request->email]
             ]);
 
             if ($verify2->exists()) {
@@ -51,7 +51,7 @@ class AuthController extends Controller
             DB::table('password_reset_tokens')
                 ->insert(
                     [
-                        'email' => $request->all()['email'],
+                        'email' => $request->email,
                         'token' => $pin
                     ]
                 );
@@ -78,7 +78,6 @@ class AuthController extends Controller
                 'success' => true,
                 'data' => $response,
                 'message' => 'Successful created user. Please check your email for a 6-digit pin to verify your email.',
-                'token' => $token
             ],
             201,
             [
@@ -111,6 +110,7 @@ class AuthController extends Controller
 
 
         // ---------  create token for the user and save it  --------- \\
+        // Check if the user has a personal access token
         $token = $user->createToken('my_token')->plainTextToken;
 
 

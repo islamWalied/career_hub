@@ -29,18 +29,31 @@ Route::get('/auth/{provider}/callback',[\App\Http\Controllers\ProviderController
 //Route::post('password/email', [\App\Http\Controllers\ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 //Route::post('password/reset', [\App\Http\Controllers\ResetPasswordController::class, 'reset'])->name('password.reset');
 //Route::post('email/verify', [\App\Http\Controllers\VerificationController::class, 'verify'])->name('verification.verify');
-Route::post(
-    '/forgot-password',
-    [App\Http\Controllers\ResetPasswordController::class, 'forgotPassword']
-);
-Route::post(
-    '/verify/pin',
-    [App\Http\Controllers\ResetPasswordController::class, 'verifyPin']
-);
-Route::post(
-    '/reset-password',
-    [App\Http\Controllers\ResetPasswordController::class, 'resetPassword']
-);
+//Route::post(
+//    '/forgot-password',
+//    [App\Http\Controllers\ResetPasswordController::class, 'forgotPassword']
+//);
+//Route::post(
+//    '/verify/pin',
+//    [App\Http\Controllers\ResetPasswordController::class, 'verifyPin']
+//);
+//Route::post(
+//    '/reset-password',
+//    [App\Http\Controllers\ResetPasswordController::class, 'resetPassword']
+//);
 
-
+Route::middleware('auth:sanctum')->group(function (){
+    Route::post('/email/verify', [\App\Http\Controllers\VerificationController::class, 'verifyEmail'])->name('verification.verify');
+    Route::get('/user/profile', [App\Http\Controllers\ProfileController::class, 'UserProfile']);
+    Route::get('/user/profile/update', [App\Http\Controllers\ProfileController::class, 'update']);
+});
+//Route::middleware('auth:sanctum')->post('/email/verify', [\App\Http\Controllers\VerificationController::class, 'verifyEmail'])->name('verification.verify');
+////Route::middleware('verified')->group(function() {
+Route::post('/forgot-password', [App\Http\Controllers\ResetPasswordController::class, 'forgotPassword']);
+Route::post('/verify/pin', [App\Http\Controllers\ResetPasswordController::class, 'verifyPin']);
+Route::post('/reset-password', [App\Http\Controllers\ResetPasswordController::class, 'resetPassword']);
 Route::post('/auth/contact',[\App\Http\Controllers\ContactController::class,'store']);
+Route::post('/password/resend-pin', [App\Http\Controllers\VerificationController::class, 'resendPin']);
+//Route::get('/user/profile', [App\Http\Controllers\ProfileController::class, 'UserProfile']);
+
+////});

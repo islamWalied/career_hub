@@ -68,7 +68,7 @@ class ResetPasswordController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255'],
-            'token' => ['required'],
+            'pin' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -77,7 +77,7 @@ class ResetPasswordController extends Controller
 
         $check = DB::table('password_reset_tokens')->where([
             ['email', $request->all()['email']],
-            ['token', $request->all()['token']],
+            ['token', $request->all()['pin']],
         ]);
 
         if ($check->exists()) {
@@ -88,7 +88,7 @@ class ResetPasswordController extends Controller
 
             $delete = DB::table('password_reset_tokens')->where([
                 ['email', $request->all()['email']],
-                ['token', $request->all()['token']],
+                ['token', $request->all()['pin']],
             ])->delete();
 
             return new JsonResponse(
@@ -130,7 +130,7 @@ class ResetPasswordController extends Controller
             [
                 'success' => true,
                 'message' => "Your password has been reset",
-                'token'=>$token
+                'token' => $token
             ],
             200
         );
