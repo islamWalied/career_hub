@@ -158,6 +158,7 @@ return [
     'providers' => ServiceProvider::defaultProviders()->merge([
 
         \Laravel\Socialite\SocialiteServiceProvider::class,
+        \Laravel\Sanctum\SanctumServiceProvider::class,
         /*
          * Package Service Providers...
          */

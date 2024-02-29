@@ -61,7 +61,7 @@ class AuthController extends Controller
 
 
         // ---------  create token for the registered user and save it  --------- \\
-        $token = $user->createToken('my_token')->plainTextToken;
+        $token = $user->createToken('token')->plainTextToken;
 
 
         // ---------  return with custom attributes  --------- \\
@@ -111,7 +111,7 @@ class AuthController extends Controller
 
         // ---------  create token for the user and save it  --------- \\
         // Check if the user has a personal access token
-        $token = $user->createToken('my_token')->plainTextToken;
+        $token = $user->createToken('token')->plainTextToken;
 
 
         // ---------  return with custom attributes  --------- \\
@@ -124,7 +124,10 @@ class AuthController extends Controller
 
 
         // ---------  return data and add headers  --------- \\
-        return response($response,
+        return response([
+            'success' => true,
+            'data' => $response,
+        ],
             201,
             [
                 'Accept' => 'application/json',

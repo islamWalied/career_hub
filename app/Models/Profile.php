@@ -13,6 +13,7 @@ class Profile extends Model
         'name',
         'job_title',
         'image',
+        'phone',
         'user_id',
     ];
 

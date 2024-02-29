@@ -24,7 +24,7 @@ class ProfileController extends Controller
     public function UserProfile()
     {
         $user_id = Auth::user()->id;
-        $user = User::where('id',$user_id)->first();
+        $user = Profile::where('user_id',$user_id)->first();
         return response()->json([
             'user' => $user
         ]);
@@ -60,12 +60,7 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request, Profile $profile)
     {
         $user = Auth::user();
-        $request->validate([
-            'name' => ['required','string','max:255'],
-            'job_title' => ['required','string'],
-            'image' => ['nullable','image'],
-            'phone' => ['nullable','string'],
-        ]);
+        $request->validated();
         $image = $user->profile->image;
         if ($request->hasFile('image'))
         {
@@ -80,7 +75,8 @@ class ProfileController extends Controller
 
         ])->save();
         return response()->json([
-            'message' => 'the user profile has been updated successfully'
+            'message' => 'the user profile has been updated successfully',
+            'user' => $user->profile
         ]);
     }
 

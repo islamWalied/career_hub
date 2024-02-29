@@ -45,7 +45,7 @@ Route::get('/auth/{provider}/callback',[\App\Http\Controllers\ProviderController
 Route::middleware('auth:sanctum')->group(function (){
     Route::post('/email/verify', [\App\Http\Controllers\VerificationController::class, 'verifyEmail'])->name('verification.verify');
     Route::get('/user/profile', [App\Http\Controllers\ProfileController::class, 'UserProfile']);
-    Route::get('/user/profile/update', [App\Http\Controllers\ProfileController::class, 'update']);
+    Route::patch('/user/profile/update', [App\Http\Controllers\ProfileController::class, 'update']);
 });
 //Route::middleware('auth:sanctum')->post('/email/verify', [\App\Http\Controllers\VerificationController::class, 'verifyEmail'])->name('verification.verify');
 ////Route::middleware('verified')->group(function() {
